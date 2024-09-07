@@ -153,34 +153,30 @@ public class BinaryTree
     public void PrintTreeWithLines()
     {
         Console.WriteLine("Дерево с вертикальными линиями:");
-        PrintTreeWithLinesRecursive(root, "");
+        PrintTreeWithLinesRecursive(root, "", true);
     }
 
-    private void PrintTreeWithLinesRecursive(Node node, string indent)
+    private void PrintTreeWithLinesRecursive(Node node, string indent, bool isLast)
     {
         if (node != null)
         {
             Console.Write(indent);
-            if (node.left != null && node.right != null)
+            if (isLast)
             {
-                Console.WriteLine("├─ " + node.data);
-                PrintTreeWithLinesRecursive(node.left, indent + "│  ");
-                PrintTreeWithLinesRecursive(node.right, indent + "│  ");
-            }
-            else if (node.left != null)
-            {
-                Console.WriteLine("└─ " + node.data);
-                PrintTreeWithLinesRecursive(node.left, indent + "   ");
-            }
-            else if (node.right != null)
-            {
-                Console.WriteLine("└─ " + node.data);
-                PrintTreeWithLinesRecursive(node.right, indent + "   ");
+                Console.Write("└─ ");
+                indent += "   ";
             }
             else
             {
-                Console.WriteLine("└─ " + node.data);
+                Console.Write("├─ ");
+                indent += "│  ";
             }
+
+            Console.WriteLine(node.data);
+
+            PrintTreeWithLinesRecursive(node.left, indent, false);
+            PrintTreeWithLinesRecursive(node.right, indent, true);
         }
     }
+
 }

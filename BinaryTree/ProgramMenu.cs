@@ -1,6 +1,4 @@
-﻿// ProgramMenu.cs
-using System;
-
+﻿using System;
 class ProgramMenu
 {
     public static void RunMenu()
@@ -15,8 +13,8 @@ class ProgramMenu
             Console.WriteLine("1. Добавить элемент");
             Console.WriteLine("2. Удалить элемент");
             Console.WriteLine("3. Найти элемент");
-            Console.WriteLine("4. Вывести дерево (сверху вниз)");
-            Console.WriteLine("5. Вывести дерево (снизу вверх)");
+            Console.WriteLine("4. Вывести дерево (префиксный обход)");
+            Console.WriteLine("5. Вывести дерево (постфиксный обход)");
             Console.WriteLine("6. Вывести дерево в инфиксном порядке");
             Console.WriteLine("7. Вывести дерево с вертикальными линиями");
             Console.WriteLine("0. Выйти");
@@ -43,8 +41,16 @@ class ProgramMenu
                     Console.Write("Введите значение для удаления: ");
                     if (int.TryParse(Console.ReadLine(), out int removeValue))
                     {
-                        tree.Remove(removeValue);
-                        Console.WriteLine($"Элемент {removeValue} удален.");
+                        // Удаление элемента
+                        if (tree.Search(removeValue))
+                        {
+                            tree.Remove(removeValue);
+                            Console.WriteLine($"Элемент {removeValue} удален.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Элемент {removeValue} не найден.");
+                        }
                     }
                     else
                     {
@@ -96,4 +102,5 @@ class ProgramMenu
         }
     }
 }
+
 
