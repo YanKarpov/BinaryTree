@@ -91,6 +91,18 @@ public class BinaryTree
         return SearchRecursive(root.left, data);
     }
 
+    // Метод для генерации и добавления случайных элементов
+    public void GenerateRandom(int count)
+    {
+        Random rand = new Random();
+        for (int i = 0; i < count; i++)
+        {
+            int randomValue = rand.Next(1, 101); // Генерация случайных чисел от 1 до 100
+            Add(randomValue);
+            Console.WriteLine($"Добавлен элемент: {randomValue}");
+        }
+    }
+
     // Вывод дерева на консоль (сверху вниз)
     public void PrintTreeTopToBottom()
     {
@@ -178,5 +190,4 @@ public class BinaryTree
             PrintTreeWithLinesRecursive(node.right, indent, true);
         }
     }
-
 }
