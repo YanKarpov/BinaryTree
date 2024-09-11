@@ -13,10 +13,11 @@ class ProgramMenu
             Console.WriteLine("1. Добавить элемент");
             Console.WriteLine("2. Удалить элемент");
             Console.WriteLine("3. Найти элемент");
-            Console.WriteLine("4. Вывести дерево (префиксный обход)");
-            Console.WriteLine("5. Вывести дерево (постфиксный обход)");
-            Console.WriteLine("6. Вывести дерево в инфиксном порядке");
-            Console.WriteLine("7. Вывести дерево с вертикальными линиями");
+            Console.WriteLine("4. Сгенерировать элементы дерева");
+            Console.WriteLine("5. Вывести дерево (КЛП)");
+            Console.WriteLine("6. Вывести дерево (ПЛК)");
+            Console.WriteLine("7. Вывести дерево в инфиксном порядке (ЛКП)");
+            Console.WriteLine("8. Вывести дерево с вертикальными линиями");
             Console.WriteLine("0. Выйти");
             Console.Write("Выберите опцию: ");
 
@@ -72,18 +73,31 @@ class ProgramMenu
                     break;
 
                 case "4":
-                    tree.PrintTreeTopToBottom();
+                    Console.Write("Введите количество случайных элементов для генерации: ");
+                    if (int.TryParse(Console.ReadLine(), out int generateCount))
+                    {
+                        tree.GenerateRandom(generateCount);
+                        Console.WriteLine($"{generateCount} случайных элементов добавлены в дерево.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Некорректное значение.");
+                    }
                     break;
 
                 case "5":
-                    tree.PrintTreeBottomToTop();
+                    tree.PrintTreeTopToBottom();
                     break;
 
                 case "6":
-                    tree.PrintTreeInOrder();
+                    tree.PrintTreeBottomToTop();
                     break;
 
                 case "7":
+                    tree.PrintTreeInOrder();
+                    break;
+
+                case "8":
                     tree.PrintTreeWithLines();
                     break;
 
