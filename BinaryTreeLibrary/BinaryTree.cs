@@ -2,7 +2,12 @@
 
 public class BinaryTree
 {
-    Node root;
+    private Node root;  
+
+    public Node Root
+    {
+        get { return root; }
+    }
 
     public BinaryTree()
     {
