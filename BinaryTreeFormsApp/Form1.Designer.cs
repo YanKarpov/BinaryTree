@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             buttonAdd = new Button();
-            treeViewBinaryTree = new TreeView();
             buttonSearch = new Button();
             buttonRemove = new Button();
             richTextBoxStatus = new RichTextBox();
             textBoxInput = new TextBox();
             buttonGenerateRandom = new Button();
+            pictureBox = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
             // 
             // buttonAdd
@@ -45,13 +46,6 @@
             buttonAdd.TabIndex = 0;
             buttonAdd.Text = "Добавить";
             buttonAdd.UseVisualStyleBackColor = true;
-            // 
-            // treeViewBinaryTree
-            // 
-            treeViewBinaryTree.Location = new Point(12, 12);
-            treeViewBinaryTree.Name = "treeViewBinaryTree";
-            treeViewBinaryTree.Size = new Size(515, 416);
-            treeViewBinaryTree.TabIndex = 2;
             // 
             // buttonSearch
             // 
@@ -73,7 +67,7 @@
             // 
             // richTextBoxStatus
             // 
-            richTextBoxStatus.Location = new Point(551, 217);
+            richTextBoxStatus.Location = new Point(551, 190);
             richTextBoxStatus.Name = "richTextBoxStatus";
             richTextBoxStatus.Size = new Size(237, 211);
             richTextBoxStatus.TabIndex = 5;
@@ -95,20 +89,29 @@
             buttonGenerateRandom.Text = "Сгенерировать";
             buttonGenerateRandom.UseVisualStyleBackColor = true;
             // 
+            // pictureBox
+            // 
+            pictureBox.Location = new Point(24, 12);
+            pictureBox.Name = "pictureBox";
+            pictureBox.Size = new Size(473, 426);
+            pictureBox.TabIndex = 8;
+            pictureBox.TabStop = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(pictureBox);
             Controls.Add(buttonGenerateRandom);
             Controls.Add(textBoxInput);
             Controls.Add(richTextBoxStatus);
             Controls.Add(buttonRemove);
             Controls.Add(buttonSearch);
-            Controls.Add(treeViewBinaryTree);
             Controls.Add(buttonAdd);
             Name = "Form1";
             Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -116,11 +119,11 @@
         #endregion
 
         private Button buttonAdd;
-        private TreeView treeViewBinaryTree;
         private Button buttonSearch;
         private Button buttonRemove;
         private RichTextBox richTextBoxStatus;
         private TextBox textBoxInput;
         private Button buttonGenerateRandom;
+        private PictureBox pictureBox;
     }
 }
