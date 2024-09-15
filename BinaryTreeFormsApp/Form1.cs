@@ -1,30 +1,30 @@
+using System.Windows.Forms;
+
 namespace BinaryTreeFormsApp
 {
     public partial class Form1 : Form
     {
-        private BinaryTree tree;  // Ссылка на дерево
+        private BinaryTree tree;  
 
         public Form1()
         {
             InitializeComponent();
-            tree = new BinaryTree();  // Инициализация дерева
+            tree = new BinaryTree();  
 
             buttonAdd.Click += buttonAdd_Click;
             buttonRemove.Click += buttonRemove_Click;
             buttonSearch.Click += buttonSearch_Click;
             buttonGenerateRandom.Click += buttonGenerateRandom_Click;
-
-            // Добавляем обработчик события для перерисовки дерева в PictureBox
             pictureBox.Paint += pictureBox_Paint;
+            panel.AutoScroll = true;
         }
-
-        // Добавление элемента
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             if (int.TryParse(textBoxInput.Text, out int addValue))
             {
                 tree.Add(addValue);
-                pictureBox.Invalidate();  // Обновляем PictureBox после добавления
+                AdjustPictureBoxSize(); 
+                pictureBox.Invalidate();  
                 richTextBoxStatus.AppendText($"Элемент {addValue} добавлен.\n");
             }
             else
@@ -41,7 +41,8 @@ namespace BinaryTreeFormsApp
                 if (tree.Search(removeValue))
                 {
                     tree.Remove(removeValue);
-                    pictureBox.Invalidate();  // Обновляем PictureBox после удаления
+                    AdjustPictureBoxSize(); 
+                    pictureBox.Invalidate();  
                     richTextBoxStatus.AppendText($"Элемент {removeValue} удалён.\n");
                 }
                 else
@@ -75,7 +76,8 @@ namespace BinaryTreeFormsApp
             if (int.TryParse(textBoxInput.Text, out int count))
             {
                 tree.GenerateRandom(count);
-                pictureBox.Invalidate();  // Обновляем PictureBox после генерации
+                AdjustPictureBoxSize(); 
+                pictureBox.Invalidate(); 
                 richTextBoxStatus.AppendText($"Сгенерировано {count} случайных элементов.\n");
             }
             else
@@ -89,12 +91,11 @@ namespace BinaryTreeFormsApp
         {
             if (tree != null && tree.Root != null)
             {
-                // Центрируем корневой узел на середине PictureBox
                 int startX = pictureBox.Width / 2;
                 int startY = 20;
-                int offsetX = 200; // Стартовое смещение для ветвей
+                int offsetX = 200;
 
-                // Вызов метода для отрисовки дерева
+                
                 DrawTree(e.Graphics, tree.Root, startX, startY, offsetX, 0);
             }
         }
@@ -104,29 +105,45 @@ namespace BinaryTreeFormsApp
         {
             if (node == null) return;
 
-            int nodeRadius = 30;  // Радиус узла (в пикселях)
-            // Нарисовать узел дерева (круг)
+            int nodeRadius = 30;  
+            
             g.DrawEllipse(Pens.Black, x, y, nodeRadius, nodeRadius);
-            g.FillEllipse(Brushes.LightBlue, x, y, nodeRadius, nodeRadius); // Закрасить круг
+            g.FillEllipse(Brushes.LightBlue, x, y, nodeRadius, nodeRadius); 
             g.DrawString(node.data.ToString(), this.Font, Brushes.Black, x + 10, y + 10);
 
-            int childOffsetX = offsetX / 2; // Смещение для дочерних узлов
+            int childOffsetX = offsetX / 2; 
 
             // Нарисовать линию к левому узлу
             if (node.left != null)
             {
                 g.DrawLine(Pens.Black, x + nodeRadius / 2, y + nodeRadius, x - offsetX + nodeRadius / 2, y + 60);
-                DrawTree(g, node.left, x - offsetX, y + 60, childOffsetX, level + 1); // Рекурсивно нарисовать левое поддерево
+                DrawTree(g, node.left, x - offsetX, y + 60, childOffsetX, level + 1); 
             }
 
             // Нарисовать линию к правому узлу
             if (node.right != null)
             {
                 g.DrawLine(Pens.Black, x + nodeRadius / 2, y + nodeRadius, x + offsetX + nodeRadius / 2, y + 60);
-                DrawTree(g, node.right, x + offsetX, y + 60, childOffsetX, level + 1); // Рекурсивно нарисовать правое поддерево
+                DrawTree(g, node.right, x + offsetX, y + 60, childOffsetX, level + 1); 
+            }
+        }
+
+        // Метод для динамического изменения размеров PictureBox
+        private void AdjustPictureBoxSize()
+        {
+            if (tree != null && tree.Root != null)
+            {
+                int maxX = pictureBox.Width;
+                int maxY = pictureBox.Height;
+
+                pictureBox.Width = Math.Max(pictureBox.Width, maxX + 50);
+                pictureBox.Height = Math.Max(pictureBox.Height, maxY + 50);
+
+                panel.AutoScrollMinSize = new Size(pictureBox.Width, pictureBox.Height);
             }
         }
     }
 }
+
 
 

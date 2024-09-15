@@ -35,7 +35,9 @@
             textBoxInput = new TextBox();
             buttonGenerateRandom = new Button();
             pictureBox = new PictureBox();
+            panel = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
+            panel.SuspendLayout();
             SuspendLayout();
             // 
             // buttonAdd
@@ -91,18 +93,27 @@
             // 
             // pictureBox
             // 
-            pictureBox.Location = new Point(24, 12);
+            pictureBox.Location = new Point(28, 25);
             pictureBox.Name = "pictureBox";
-            pictureBox.Size = new Size(473, 426);
+            pictureBox.Size = new Size(460, 383);
             pictureBox.TabIndex = 8;
             pictureBox.TabStop = false;
+            // 
+            // panel
+            // 
+            panel.AutoScroll = true;
+            panel.Controls.Add(pictureBox);
+            panel.Location = new Point(4, 3);
+            panel.Name = "panel";
+            panel.Size = new Size(523, 435);
+            panel.TabIndex = 9;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(pictureBox);
+            Controls.Add(panel);
             Controls.Add(buttonGenerateRandom);
             Controls.Add(textBoxInput);
             Controls.Add(richTextBoxStatus);
@@ -112,6 +123,7 @@
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
+            panel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -125,5 +137,6 @@
         private TextBox textBoxInput;
         private Button buttonGenerateRandom;
         private PictureBox pictureBox;
+        private Panel panel;
     }
 }
