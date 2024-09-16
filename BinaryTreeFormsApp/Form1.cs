@@ -26,6 +26,7 @@ namespace BinaryTreeFormsApp
                 AdjustPictureBoxSize(); 
                 pictureBox.Invalidate();  
                 richTextBoxStatus.AppendText($"Ёлемент {addValue} добавлен.\n");
+                textBoxInput.Clear();
             }
             else
             {
@@ -44,10 +45,12 @@ namespace BinaryTreeFormsApp
                     AdjustPictureBoxSize(); 
                     pictureBox.Invalidate();  
                     richTextBoxStatus.AppendText($"Ёлемент {removeValue} удалЄн.\n");
+                    textBoxInput.Clear();
                 }
                 else
                 {
                     richTextBoxStatus.AppendText($"Ёлемент {removeValue} не найден.\n");
+                    textBoxInput.Clear();
                 }
             }
             else
@@ -63,6 +66,7 @@ namespace BinaryTreeFormsApp
             {
                 bool found = tree.Search(searchValue);
                 richTextBoxStatus.AppendText(found ? $"Ёлемент {searchValue} найден.\n" : $"Ёлемент {searchValue} не найден.\n");
+                textBoxInput.Clear();
             }
             else
             {
@@ -79,6 +83,7 @@ namespace BinaryTreeFormsApp
                 AdjustPictureBoxSize(); 
                 pictureBox.Invalidate(); 
                 richTextBoxStatus.AppendText($"—генерировано {count} случайных элементов.\n");
+                textBoxInput.Clear();
             }
             else
             {

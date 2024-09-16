@@ -51,9 +51,9 @@
             // 
             // buttonSearch
             // 
-            buttonSearch.Location = new Point(633, 12);
+            buttonSearch.Location = new Point(533, 106);
             buttonSearch.Name = "buttonSearch";
-            buttonSearch.Size = new Size(164, 42);
+            buttonSearch.Size = new Size(94, 37);
             buttonSearch.TabIndex = 3;
             buttonSearch.Text = "Найти";
             buttonSearch.UseVisualStyleBackColor = true;
@@ -69,7 +69,7 @@
             // 
             // richTextBoxStatus
             // 
-            richTextBoxStatus.Location = new Point(551, 190);
+            richTextBoxStatus.Location = new Point(551, 211);
             richTextBoxStatus.Name = "richTextBoxStatus";
             richTextBoxStatus.Size = new Size(237, 211);
             richTextBoxStatus.TabIndex = 5;
@@ -77,16 +77,16 @@
             // 
             // textBoxInput
             // 
-            textBoxInput.Location = new Point(551, 116);
+            textBoxInput.Location = new Point(551, 164);
             textBoxInput.Name = "textBoxInput";
             textBoxInput.Size = new Size(237, 27);
             textBoxInput.TabIndex = 6;
             // 
             // buttonGenerateRandom
             // 
-            buttonGenerateRandom.Location = new Point(633, 60);
+            buttonGenerateRandom.Location = new Point(633, 14);
             buttonGenerateRandom.Name = "buttonGenerateRandom";
-            buttonGenerateRandom.Size = new Size(164, 40);
+            buttonGenerateRandom.Size = new Size(164, 129);
             buttonGenerateRandom.TabIndex = 7;
             buttonGenerateRandom.Text = "Сгенерировать";
             buttonGenerateRandom.UseVisualStyleBackColor = true;
@@ -121,7 +121,7 @@
             Controls.Add(buttonSearch);
             Controls.Add(buttonAdd);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Бинарное дерево поиска";
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             panel.ResumeLayout(false);
             ResumeLayout(false);
