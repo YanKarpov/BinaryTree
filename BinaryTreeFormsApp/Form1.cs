@@ -26,10 +26,12 @@ namespace BinaryTreeFormsApp
                 AdjustPictureBoxSize(); 
                 pictureBox.Invalidate();  
                 richTextBoxStatus.AppendText($"Элемент {addValue} добавлен.\n");
+                textBoxInput.Clear();
             }
             else
             {
                 richTextBoxStatus.AppendText("Некорректное значение.\n");
+                textBoxInput.Clear();
             }
         }
 
@@ -44,15 +46,18 @@ namespace BinaryTreeFormsApp
                     AdjustPictureBoxSize(); 
                     pictureBox.Invalidate();  
                     richTextBoxStatus.AppendText($"Элемент {removeValue} удалён.\n");
+                    textBoxInput.Clear();
                 }
                 else
                 {
                     richTextBoxStatus.AppendText($"Элемент {removeValue} не найден.\n");
+                    textBoxInput.Clear();
                 }
             }
             else
             {
                 richTextBoxStatus.AppendText("Некорректное значение.\n");
+                textBoxInput.Clear();
             }
         }
 
@@ -63,10 +68,12 @@ namespace BinaryTreeFormsApp
             {
                 bool found = tree.Search(searchValue);
                 richTextBoxStatus.AppendText(found ? $"Элемент {searchValue} найден.\n" : $"Элемент {searchValue} не найден.\n");
+                textBoxInput.Clear();
             }
             else
             {
                 richTextBoxStatus.AppendText("Некорректное значение.\n");
+                textBoxInput.Clear();
             }
         }
 
@@ -79,10 +86,12 @@ namespace BinaryTreeFormsApp
                 AdjustPictureBoxSize(); 
                 pictureBox.Invalidate(); 
                 richTextBoxStatus.AppendText($"Сгенерировано {count} случайных элементов.\n");
+                textBoxInput.Clear();
             }
             else
             {
                 richTextBoxStatus.AppendText("Некорректное значение.\n");
+                textBoxInput.Clear();
             }
         }
 
