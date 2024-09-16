@@ -43,7 +43,7 @@
             // 
             // buttonAdd
             // 
-            buttonAdd.Location = new Point(533, 12);
+            buttonAdd.Location = new Point(808, 22);
             buttonAdd.Name = "buttonAdd";
             buttonAdd.Size = new Size(94, 42);
             buttonAdd.TabIndex = 0;
@@ -52,7 +52,7 @@
             // 
             // buttonSearch
             // 
-            buttonSearch.Location = new Point(533, 106);
+            buttonSearch.Location = new Point(808, 116);
             buttonSearch.Name = "buttonSearch";
             buttonSearch.Size = new Size(94, 42);
             buttonSearch.TabIndex = 3;
@@ -61,7 +61,7 @@
             // 
             // buttonRemove
             // 
-            buttonRemove.Location = new Point(533, 60);
+            buttonRemove.Location = new Point(808, 70);
             buttonRemove.Name = "buttonRemove";
             buttonRemove.Size = new Size(94, 40);
             buttonRemove.TabIndex = 4;
@@ -70,22 +70,22 @@
             // 
             // richTextBoxStatus
             // 
-            richTextBoxStatus.Location = new Point(533, 209);
+            richTextBoxStatus.Location = new Point(808, 228);
             richTextBoxStatus.Name = "richTextBoxStatus";
-            richTextBoxStatus.Size = new Size(255, 211);
+            richTextBoxStatus.Size = new Size(278, 211);
             richTextBoxStatus.TabIndex = 5;
             richTextBoxStatus.Text = "";
             // 
             // textBoxInput
             // 
-            textBoxInput.Location = new Point(533, 167);
+            textBoxInput.Location = new Point(808, 178);
             textBoxInput.Name = "textBoxInput";
-            textBoxInput.Size = new Size(255, 27);
+            textBoxInput.Size = new Size(278, 27);
             textBoxInput.TabIndex = 6;
             // 
             // buttonGenerateRandom
             // 
-            buttonGenerateRandom.Location = new Point(633, 12);
+            buttonGenerateRandom.Location = new Point(931, 22);
             buttonGenerateRandom.Name = "buttonGenerateRandom";
             buttonGenerateRandom.Size = new Size(155, 60);
             buttonGenerateRandom.TabIndex = 7;
@@ -96,7 +96,7 @@
             // 
             pictureBox.Location = new Point(12, 12);
             pictureBox.Name = "pictureBox";
-            pictureBox.Size = new Size(507, 427);
+            pictureBox.Size = new Size(754, 546);
             pictureBox.TabIndex = 8;
             pictureBox.TabStop = false;
             // 
@@ -106,12 +106,12 @@
             panel.Controls.Add(pictureBox);
             panel.Location = new Point(0, 0);
             panel.Name = "panel";
-            panel.Size = new Size(527, 452);
+            panel.Size = new Size(787, 561);
             panel.TabIndex = 9;
             // 
             // buttonReset
             // 
-            buttonReset.Location = new Point(633, 92);
+            buttonReset.Location = new Point(931, 102);
             buttonReset.Name = "buttonReset";
             buttonReset.Size = new Size(155, 56);
             buttonReset.TabIndex = 10;
@@ -122,7 +122,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(899, 464);
+            ClientSize = new Size(1107, 573);
             Controls.Add(buttonReset);
             Controls.Add(panel);
             Controls.Add(buttonGenerateRandom);

@@ -20,6 +20,24 @@ public class BinaryTree
         root = AddRecursive(root, data);
     }
 
+
+    public int GetMaxDepth()
+    {
+        return GetDepth(Root);
+    }
+
+    private int GetDepth(Node node)
+    {
+        if (node == null)
+            return 0;
+
+        int leftDepth = GetDepth(node.left);
+        int rightDepth = GetDepth(node.right);
+
+        return Math.Max(leftDepth, rightDepth) + 1;
+    }
+
+
     private Node AddRecursive(Node node, int data)
     {
         if (node == null)

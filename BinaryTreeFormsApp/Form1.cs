@@ -28,6 +28,7 @@ namespace BinaryTreeFormsApp
                 tree.Add(addValue);
                 AdjustPictureBoxSize();
                 pictureBox.Invalidate();
+                CenterTreeInPanel();
                 richTextBoxStatus.AppendText($"Ёлемент {addValue} добавлен.\n");
             }
             else
@@ -78,11 +79,31 @@ namespace BinaryTreeFormsApp
                 tree.GenerateRandom(count);
                 AdjustPictureBoxSize();
                 pictureBox.Invalidate();
+                CenterTreeInPanel();  // ÷ентрируем дерево в панели
                 richTextBoxStatus.AppendText($"—генерировано {count} случайных элементов.\n");
             }
             else
             {
                 richTextBoxStatus.AppendText("Ќекорректное значение.\n");
+            }
+        }
+
+
+
+
+        private void CenterTreeInPanel()
+        {
+            if (tree != null && tree.Root != null)
+            {
+                // ќпредел€ем центральную точку дерева и панели
+                int treeCenterX = pictureBox.Width / 2;
+                int panelCenterX = panel.ClientSize.Width / 2;
+
+                // –ассчитываем сдвиг дл€ центрировани€ дерева
+                int offsetX = treeCenterX - panelCenterX;
+
+                // ”станавливаем позицию прокрутки, центриру€ дерево
+                panel.AutoScrollPosition = new Point(offsetX, 0);  // ÷ентрируем по горизонтали
             }
         }
 
@@ -142,7 +163,16 @@ namespace BinaryTreeFormsApp
         {
             if (tree != null && tree.Root != null)
             {
-                // Ћогика дл€ расчета размеров при наличии узлов
+                // –ассчитываем максимальную глубину и ширину дерева
+                int treeDepth = tree.GetMaxDepth();  // ћетод дл€ получени€ максимальной глубины дерева
+                int treeWidth = (int)Math.Pow(2, treeDepth) * 100;  // ѕримерный расчЄт ширины, основанный на количестве узлов на максимальном уровне
+
+                // ”станавливаем новые размеры PictureBox
+                pictureBox.Width = Math.Max(treeWidth, panel.Width);  // Ўирина должна быть либо рассчитанной, либо как минимум шириной панели
+                pictureBox.Height = treeDepth * 80 + 100;  // ¬ысота увеличиваетс€ в зависимости от глубины дерева
+
+                // ќбновл€ем минимальные размеры дл€ прокрутки панели
+                panel.AutoScrollMinSize = new Size(pictureBox.Width, pictureBox.Height);
             }
             else
             {
@@ -152,6 +182,7 @@ namespace BinaryTreeFormsApp
                 panel.AutoScrollMinSize = new Size(pictureBox.Width, pictureBox.Height);
             }
         }
+
     }
 }
 
