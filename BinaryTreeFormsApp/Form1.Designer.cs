@@ -37,6 +37,7 @@
             pictureBox = new PictureBox();
             panel = new Panel();
             buttonReset = new Button();
+            checkBoxBalance = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             panel.SuspendLayout();
             SuspendLayout();
@@ -70,7 +71,7 @@
             // 
             // richTextBoxStatus
             // 
-            richTextBoxStatus.Location = new Point(808, 228);
+            richTextBoxStatus.Location = new Point(808, 347);
             richTextBoxStatus.Name = "richTextBoxStatus";
             richTextBoxStatus.Size = new Size(278, 211);
             richTextBoxStatus.TabIndex = 5;
@@ -78,7 +79,7 @@
             // 
             // textBoxInput
             // 
-            textBoxInput.Location = new Point(808, 178);
+            textBoxInput.Location = new Point(808, 300);
             textBoxInput.Name = "textBoxInput";
             textBoxInput.Size = new Size(278, 27);
             textBoxInput.TabIndex = 6;
@@ -118,11 +119,22 @@
             buttonReset.Text = "Сброс";
             buttonReset.UseVisualStyleBackColor = true;
             // 
+            // checkBoxBalance
+            // 
+            checkBoxBalance.AutoSize = true;
+            checkBoxBalance.Location = new Point(808, 181);
+            checkBoxBalance.Name = "checkBoxBalance";
+            checkBoxBalance.Size = new Size(159, 24);
+            checkBoxBalance.TabIndex = 11;
+            checkBoxBalance.Text = "AVL Балансировка";
+            checkBoxBalance.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1107, 573);
+            Controls.Add(checkBoxBalance);
             Controls.Add(buttonReset);
             Controls.Add(panel);
             Controls.Add(buttonGenerateRandom);
@@ -150,5 +162,6 @@
         private PictureBox pictureBox;
         private Panel panel;
         private Button buttonReset;
+        private CheckBox checkBoxBalance;
     }
 }

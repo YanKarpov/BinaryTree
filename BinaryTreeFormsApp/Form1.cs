@@ -23,6 +23,8 @@ namespace BinaryTreeFormsApp
             buttonReset.Click += buttonReset_Click;
             pictureBox.Paint += pictureBox_Paint;
             panel.AutoScroll = true;
+
+            checkBoxBalance.CheckedChanged += checkBoxBalance_CheckedChanged;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -103,10 +105,10 @@ namespace BinaryTreeFormsApp
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            tree = new BinaryTree();  
-            treeRenderer = new BinaryTreeRenderer(tree);  
-            pictureBox.Invalidate();  
-            richTextBoxStatus.Clear();  
+            tree = new BinaryTree(checkBoxBalance.Checked); // Учитываем состояние CheckBox
+            treeRenderer = new BinaryTreeRenderer(tree);
+            pictureBox.Invalidate();
+            richTextBoxStatus.Clear();
             richTextBoxStatus.AppendText("Дерево сброшено.\n");
         }
 
@@ -160,10 +162,16 @@ namespace BinaryTreeFormsApp
                 panel.AutoScrollPosition = new Point(offsetX, 0);  // Центрируем по горизонтали
             }
         }
+
+        private void checkBoxBalance_CheckedChanged(object sender, EventArgs e)
+        {
+            bool isBalanced = checkBoxBalance.Checked;
+            tree.SetBalance(isBalanced); 
+
+
+            richTextBoxStatus.AppendText(isBalanced
+                ? "Балансировка включена.\n"
+                : "Балансировка выключена.\n");
+        }
     }
 }
-
-
-
-
-

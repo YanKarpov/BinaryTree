@@ -2,16 +2,19 @@
 
 public class BinaryTree
 {
-    private Node root;  
+    private Node root;
 
     public Node Root
     {
         get { return root; }
     }
 
-    public BinaryTree()
+    private bool _isBalanced; // Новый флаг для включения/выключения балансировки
+
+    public BinaryTree(bool isBalanced = false)
     {
         root = null;
+        _isBalanced = isBalanced; // Инициализация балансировки
     }
 
     // Добавление элемента в дерево
@@ -20,7 +23,13 @@ public class BinaryTree
         root = AddRecursive(root, data);
     }
 
+    // Включение или выключение балансировки
+    public void SetBalance(bool isBalanced)
+    {
+        _isBalanced = isBalanced;
+    }
 
+    // Получение максимальной глубины
     public int GetMaxDepth()
     {
         return GetDepth(Root);
@@ -37,7 +46,7 @@ public class BinaryTree
         return Math.Max(leftDepth, rightDepth) + 1;
     }
 
-
+    // Рекурсивное добавление с учетом балансировки
     private Node AddRecursive(Node node, int data)
     {
         if (node == null)
@@ -51,6 +60,11 @@ public class BinaryTree
         else if (data > node.data)
             node.right = AddRecursive(node.right, data);
 
+        if (_isBalanced)
+        {
+            node = Balance(node); // Выполнение балансировки, если флаг установлен
+        }
+
         return node;
     }
 
@@ -60,27 +74,32 @@ public class BinaryTree
         root = RemoveRecursive(root, data);
     }
 
-    private Node RemoveRecursive(Node root, int data)
+    private Node RemoveRecursive(Node node, int data)
     {
-        if (root == null)
-            return root;
+        if (node == null)
+            return node;
 
-        if (data < root.data)
-            root.left = RemoveRecursive(root.left, data);
-        else if (data > root.data)
-            root.right = RemoveRecursive(root.right, data);
+        if (data < node.data)
+            node.left = RemoveRecursive(node.left, data);
+        else if (data > node.data)
+            node.right = RemoveRecursive(node.right, data);
         else
         {
-            if (root.left == null)
-                return root.right;
-            else if (root.right == null)
-                return root.left;
+            if (node.left == null)
+                return node.right;
+            else if (node.right == null)
+                return node.left;
 
-            root.data = MinValue(root.right);
-            root.right = RemoveRecursive(root.right, root.data);
+            node.data = MinValue(node.right);
+            node.right = RemoveRecursive(node.right, node.data);
         }
 
-        return root;
+        if (_isBalanced)
+        {
+            node = Balance(node); // Балансировка после удаления
+        }
+
+        return node;
     }
 
     private int MinValue(Node node)
@@ -114,7 +133,7 @@ public class BinaryTree
         return SearchRecursive(root.left, data);
     }
 
-    // Метод для генерации и добавления случайных элементов
+    // Метод для генерации случайных элементов
     public void GenerateRandom(int count)
     {
         Random rand = new Random();
@@ -126,12 +145,75 @@ public class BinaryTree
         }
     }
 
+    // Балансировка узла
+    private Node Balance(Node node)
+    {
+        int balanceFactor = GetBalanceFactor(node);
+
+        // Левое поддерево слишком высоко
+        if (balanceFactor > 1)
+        {
+            // Левый ребенок имеет отрицательный баланс
+            if (GetBalanceFactor(node.left) < 0)
+            {
+                node.left = RotateLeft(node.left);
+            }
+            node = RotateRight(node);
+        }
+        // Правое поддерево слишком высоко
+        else if (balanceFactor < -1)
+        {
+            // Правый ребенок имеет положительный баланс
+            if (GetBalanceFactor(node.right) > 0)
+            {
+                node.right = RotateRight(node.right);
+            }
+            node = RotateLeft(node);
+        }
+
+        return node;
+    }
+
+    // Получение баланса узла (разница высот поддеревьев)
+    private int GetBalanceFactor(Node node)
+    {
+        if (node == null)
+            return 0;
+        return GetDepth(node.left) - GetDepth(node.right);
+    }
+
+    // Поворот вправо
+    private Node RotateRight(Node y)
+    {
+        Node x = y.left;
+        Node T2 = x.right;
+
+        // Выполняем поворот
+        x.right = y;
+        y.left = T2;
+
+        return x;
+    }
+
+    // Поворот влево
+    private Node RotateLeft(Node x)
+    {
+        Node y = x.right;
+        Node T2 = y.left;
+
+        // Выполняем поворот
+        y.left = x;
+        x.right = T2;
+
+        return y;
+    }
+
     // Вывод дерева на консоль (сверху вниз)
     public void PrintTreeTopToBottom()
-    {
-        Console.WriteLine("Дерево (сверху вниз):");
-        PrintTreeTopToBottomRecursive(root);
-    }
+        {
+            Console.WriteLine("Дерево (сверху вниз):");
+            PrintTreeTopToBottomRecursive(root);
+        }
 
     private void PrintTreeTopToBottomRecursive(Node node)
     {
