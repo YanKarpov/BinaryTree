@@ -27,89 +27,98 @@ namespace BinaryTreeFormsApp
             checkBoxBalance.CheckedChanged += checkBoxBalance_CheckedChanged;
         }
 
+        private void ClearTextBoxAndAppendStatus(string message)
+        {
+            richTextBoxStatus.AppendText(message);
+            textBoxInput.Clear();
+        }
+
+        private bool TryParseInput(out int value)
+        {
+            return int.TryParse(textBoxInput.Text, out value);
+        }
+
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(textBoxInput.Text, out int addValue))
+            if (TryParseInput(out int addValue))
             {
-                tree.Add(addValue);
-                AdjustPictureBoxSize();
-                pictureBox.Invalidate();
-                CenterTreeInPanel();
-                richTextBoxStatus.AppendText($"Элемент {addValue} добавлен.\n");
-                textBoxInput.Clear();
+                if (!tree.Search(addValue))
+                {
+                    tree.Add(addValue);
+                    AdjustPictureBoxSize();
+                    pictureBox.Invalidate();
+                    CenterTreeInPanel();
+                    ClearTextBoxAndAppendStatus($"Элемент {addValue} добавлен.\n");
+                }
+                else
+                {
+                    ClearTextBoxAndAppendStatus($"Элемент {addValue} уже существует.\n");
+                }
             }
             else
             {
-                richTextBoxStatus.AppendText("Некорректное значение.\n");
-                textBoxInput.Clear();
+                ClearTextBoxAndAppendStatus("Некорректное значение.\n");
             }
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(textBoxInput.Text, out int removeValue))
+            if (TryParseInput(out int removeValue))
             {
                 if (tree.Search(removeValue))
                 {
                     tree.Remove(removeValue);
                     AdjustPictureBoxSize();
                     pictureBox.Invalidate();
-                    richTextBoxStatus.AppendText($"Элемент {removeValue} удалён.\n");
-                    textBoxInput.Clear();
+                    ClearTextBoxAndAppendStatus($"Элемент {removeValue} удалён.\n");
                 }
                 else
                 {
-                    richTextBoxStatus.AppendText($"Элемент {removeValue} не найден.\n");
-                    textBoxInput.Clear();
+                    ClearTextBoxAndAppendStatus($"Элемент {removeValue} не найден.\n");
                 }
             }
             else
             {
-                richTextBoxStatus.AppendText("Некорректное значение.\n");
-                textBoxInput.Clear();
+                ClearTextBoxAndAppendStatus("Некорректное значение.\n");
             }
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(textBoxInput.Text, out int searchValue))
+            if (TryParseInput(out int searchValue))
             {
                 bool found = tree.Search(searchValue);
-                richTextBoxStatus.AppendText(found ? $"Элемент {searchValue} найден.\n" : $"Элемент {searchValue} не найден.\n");
-                textBoxInput.Clear();
+                ClearTextBoxAndAppendStatus(found ? $"Элемент {searchValue} найден.\n" : $"Элемент {searchValue} не найден.\n");
             }
             else
             {
-                richTextBoxStatus.AppendText("Некорректное значение.\n");
-                textBoxInput.Clear();
+                ClearTextBoxAndAppendStatus("Некорректное значение.\n");
             }
         }
 
         private void buttonGenerateRandom_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(textBoxInput.Text, out int count))
+            if (TryParseInput(out int count))
             {
                 tree.GenerateRandom(count);
                 AdjustPictureBoxSize();
                 pictureBox.Invalidate();
                 CenterTreeInPanel();
-                richTextBoxStatus.AppendText($"Сгенерировано {count} случайных элементов.\n");
-                textBoxInput.Clear();
+                ClearTextBoxAndAppendStatus($"Сгенерировано {count} случайных элементов.\n");
             }
             else
             {
-                richTextBoxStatus.AppendText("Некорректное значение.\n");
-                textBoxInput.Clear();
+                ClearTextBoxAndAppendStatus("Некорректное значение.\n");
             }
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            tree = new BinaryTree(checkBoxBalance.Checked); // Учитываем состояние CheckBox
+            tree = new BinaryTree(checkBoxBalance.Checked); 
             treeRenderer = new BinaryTreeRenderer(tree);
             pictureBox.Invalidate();
             richTextBoxStatus.Clear();
-            richTextBoxStatus.AppendText("Дерево сброшено.\n");
+            ClearTextBoxAndAppendStatus("Дерево сброшено.\n");
         }
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
@@ -159,17 +168,15 @@ namespace BinaryTreeFormsApp
                 int offsetX = treeCenterX - panelCenterX;
 
                 // Устанавливаем позицию прокрутки, центрируя дерево
-                panel.AutoScrollPosition = new Point(offsetX, 0);  // Центрируем по горизонтали
+                panel.AutoScrollPosition = new Point(offsetX, 0);  
             }
         }
 
         private void checkBoxBalance_CheckedChanged(object sender, EventArgs e)
         {
             bool isBalanced = checkBoxBalance.Checked;
-            tree.SetBalance(isBalanced); 
-
-
-            richTextBoxStatus.AppendText(isBalanced
+            tree.SetBalance(isBalanced);
+            ClearTextBoxAndAppendStatus(isBalanced
                 ? "Балансировка включена.\n"
                 : "Балансировка выключена.\n");
         }
