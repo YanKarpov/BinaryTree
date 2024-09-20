@@ -8,23 +8,44 @@ namespace BinaryTreeFormsApp
     public partial class Form1 : Form
     {
         private BinaryTree tree;
+        private BinaryHeap heap;
         private BinaryTreeRenderer treeRenderer;
+        private BinaryHeapRenderer heapRenderer;
 
         public Form1()
         {
             InitializeComponent();
-            tree = new BinaryTree();
-            treeRenderer = new BinaryTreeRenderer(tree);
-
-            buttonAdd.Click += buttonAdd_Click;
-            buttonRemove.Click += buttonRemove_Click;
-            buttonSearch.Click += buttonSearch_Click;
-            buttonGenerateRandom.Click += buttonGenerateRandom_Click;
-            buttonReset.Click += buttonReset_Click;
-            pictureBox.Paint += pictureBox_Paint;
+            InitializeDataStructures();
+            InitializeComboBox();
+            InitializeEventHandlers();
             panel.AutoScroll = true;
+        }
 
-            checkBoxBalance.CheckedChanged += checkBoxBalance_CheckedChanged;
+        private void InitializeDataStructures()
+        {
+            tree = new BinaryTree();
+            heap = new BinaryHeap();
+            treeRenderer = new BinaryTreeRenderer(tree);
+            heapRenderer = new BinaryHeapRenderer(heap);
+        }
+
+        private void InitializeComboBox()
+        {
+            comboBoxStructure.Items.Add("Ѕинарное дерево");
+            comboBoxStructure.Items.Add("Ѕинарна€ куча");
+            comboBoxStructure.SelectedIndex = 0; // ѕо умолчанию бинарное дерево
+        }
+
+        private void InitializeEventHandlers()
+        {
+            comboBoxStructure.SelectedIndexChanged += (s, e) => pictureBox.Invalidate();
+            buttonAdd.Click += ButtonAdd_Click;
+            buttonRemove.Click += ButtonRemove_Click;
+            buttonSearch.Click += ButtonSearch_Click;
+            buttonGenerateRandom.Click += ButtonGenerateRandom_Click;
+            buttonReset.Click += ButtonReset_Click;
+            pictureBox.Paint += PictureBox_Paint;
+            checkBoxBalance.CheckedChanged += CheckBoxBalance_CheckedChanged;
         }
 
         private void ClearTextBoxAndAppendStatus(string message)
@@ -33,26 +54,19 @@ namespace BinaryTreeFormsApp
             textBoxInput.Clear();
         }
 
-        private bool TryParseInput(out int value)
-        {
-            return int.TryParse(textBoxInput.Text, out value);
-        }
+        private bool TryParseInput(out int value) => int.TryParse(textBoxInput.Text, out value);
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void ButtonAdd_Click(object sender, EventArgs e)
         {
             if (TryParseInput(out int addValue))
             {
-                if (!tree.Search(addValue))
+                if (comboBoxStructure.SelectedItem.ToString() == "Ѕинарное дерево")
                 {
-                    tree.Add(addValue);
-                    AdjustPictureBoxSize();
-                    pictureBox.Invalidate();
-                    CenterTreeInPanel();
-                    ClearTextBoxAndAppendStatus($"Ёлемент {addValue} добавлен.\n");
+                    AddToTree(addValue);
                 }
                 else
                 {
-                    ClearTextBoxAndAppendStatus($"Ёлемент {addValue} уже существует.\n");
+                    AddToHeap(addValue);
                 }
             }
             else
@@ -61,21 +75,34 @@ namespace BinaryTreeFormsApp
             }
         }
 
-        private void buttonRemove_Click(object sender, EventArgs e)
+        private void AddToTree(int value)
+        {
+            if (!tree.Search(value))
+            {
+                tree.Add(value);
+                UpdateUI($"Ёлемент {value} добавлен в дерево.\n");
+            }
+            else
+            {
+                ClearTextBoxAndAppendStatus($"Ёлемент {value} уже существует в дереве.\n");
+            }
+        }
+
+        private void AddToHeap(int value)
+        {
+            heap.Insert(value);
+            UpdateUI($"Ёлемент {value} добавлен в кучу.\n");
+        }
+
+        private void ButtonRemove_Click(object sender, EventArgs e)
         {
             if (TryParseInput(out int removeValue))
             {
-                if (tree.Search(removeValue))
+                if (comboBoxStructure.SelectedItem.ToString() == "Ѕинарное дерево")
                 {
-                    tree.Remove(removeValue);
-                    AdjustPictureBoxSize();
-                    pictureBox.Invalidate();
-                    ClearTextBoxAndAppendStatus($"Ёлемент {removeValue} удалЄн.\n");
+                    RemoveFromTree(removeValue);
                 }
-                else
-                {
-                    ClearTextBoxAndAppendStatus($"Ёлемент {removeValue} не найден.\n");
-                }
+
             }
             else
             {
@@ -83,12 +110,31 @@ namespace BinaryTreeFormsApp
             }
         }
 
-        private void buttonSearch_Click(object sender, EventArgs e)
+        private void RemoveFromTree(int value)
+        {
+            if (tree.Search(value))
+            {
+                tree.Remove(value);
+                UpdateUI($"Ёлемент {value} удалЄн из дерева.\n");
+            }
+            else
+            {
+                ClearTextBoxAndAppendStatus($"Ёлемент {value} не найден в дереве.\n");
+            }
+        }
+
+        private void ButtonSearch_Click(object sender, EventArgs e)
         {
             if (TryParseInput(out int searchValue))
             {
-                bool found = tree.Search(searchValue);
-                ClearTextBoxAndAppendStatus(found ? $"Ёлемент {searchValue} найден.\n" : $"Ёлемент {searchValue} не найден.\n");
+                if (comboBoxStructure.SelectedItem.ToString() == "Ѕинарное дерево")
+                {
+                    SearchInTree(searchValue);
+                }
+                //else
+                //{
+                //    SearchInHeap(searchValue);
+                //}
             }
             else
             {
@@ -96,15 +142,32 @@ namespace BinaryTreeFormsApp
             }
         }
 
-        private void buttonGenerateRandom_Click(object sender, EventArgs e)
+        private void SearchInTree(int value)
+        {
+            bool found = tree.Search(value);
+            ClearTextBoxAndAppendStatus(found ? $"Ёлемент {value} найден в дереве.\n" : $"Ёлемент {value} не найден в дереве.\n");
+        }
+
+        //private void SearchInHeap(int value)
+        //{
+        //    bool found = heap.Search(value);
+        //    ClearTextBoxAndAppendStatus(found ? $"Ёлемент {value} найден в куче.\n" : $"Ёлемент {value} не найден в куче.\n");
+        //}
+
+        private void ButtonGenerateRandom_Click(object sender, EventArgs e)
         {
             if (TryParseInput(out int count))
             {
-                tree.GenerateRandom(count);
-                AdjustPictureBoxSize();
-                pictureBox.Invalidate();
-                CenterTreeInPanel();
-                ClearTextBoxAndAppendStatus($"—генерировано {count} случайных элементов.\n");
+                if (comboBoxStructure.SelectedItem.ToString() == "Ѕинарное дерево")
+                {
+                    tree.GenerateRandom(count);
+                }
+                else
+                {
+                    heap.GenerateRandom(count);
+                }
+
+                UpdateUI($"—генерировано {count} случайных элементов.\n");
             }
             else
             {
@@ -112,73 +175,97 @@ namespace BinaryTreeFormsApp
             }
         }
 
-        private void buttonReset_Click(object sender, EventArgs e)
+        private void ButtonReset_Click(object sender, EventArgs e)
         {
-            tree = new BinaryTree(checkBoxBalance.Checked); 
-            treeRenderer = new BinaryTreeRenderer(tree);
-            pictureBox.Invalidate();
-            richTextBoxStatus.Clear();
-            ClearTextBoxAndAppendStatus("ƒерево сброшено.\n");
+            ResetDataStructures();
+            ClearTextBoxAndAppendStatus("—труктура сброшена.\n");
         }
 
-        private void pictureBox_Paint(object sender, PaintEventArgs e)
+        private void ResetDataStructures()
         {
-            if (tree != null && tree.Root != null)
+            if (comboBoxStructure.SelectedItem.ToString() == "Ѕинарное дерево")
             {
-                int startX = pictureBox.Width / 2;
-                int startY = 20;
-
-                treeRenderer.Draw(e.Graphics, startX, startY);
+                tree = new BinaryTree(checkBoxBalance.Checked);
+                treeRenderer = new BinaryTreeRenderer(tree);
             }
             else
             {
-                e.Graphics.Clear(Color.White);
+                heap = new BinaryHeap();
+                heapRenderer = new BinaryHeapRenderer(heap);
             }
+            pictureBox.Invalidate();
+            richTextBoxStatus.Clear();
+        }
+
+        private void PictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (comboBoxStructure.SelectedItem.ToString() == "Ѕинарное дерево")
+            {
+                if (tree?.Root != null)
+                {
+                    treeRenderer.Draw(e.Graphics, pictureBox.Width / 2, 20);
+                }
+            }
+            else
+            {
+                if (heap?.Count != null)
+                {
+                    heapRenderer.Draw(e.Graphics, pictureBox.Width / 2, 20);
+                }
+            }
+        }
+
+        private void UpdateUI(string message)
+        {
+            AdjustPictureBoxSize();
+            pictureBox.Invalidate();
+            CenterTreeInPanel();
+            ClearTextBoxAndAppendStatus(message);
         }
 
         private void AdjustPictureBoxSize()
         {
-            if (tree != null && tree.Root != null)
-            {
-                int treeDepth = tree.GetMaxDepth();
-                int treeWidth = (int)Math.Pow(2, treeDepth) * 100;
+            int depth = (comboBoxStructure.SelectedItem.ToString() == "Ѕинарное дерево") ? tree.GetMaxDepth() : heap.GetMaxDepth();
+            int width = (int)Math.Pow(2, depth) * 100;
 
-                pictureBox.Width = Math.Max(treeWidth, panel.Width);
-                pictureBox.Height = treeDepth * 80 + 100;
-
-                panel.AutoScrollMinSize = new Size(pictureBox.Width, pictureBox.Height);
-            }
-            else
-            {
-                pictureBox.Width = 500;
-                pictureBox.Height = 500;
-                panel.AutoScrollMinSize = new Size(pictureBox.Width, pictureBox.Height);
-            }
+            pictureBox.Width = Math.Max(width, panel.Width);
+            pictureBox.Height = depth * 80 + 100;
+            panel.AutoScrollMinSize = new Size(pictureBox.Width, pictureBox.Height);
         }
 
         private void CenterTreeInPanel()
         {
-            if (tree != null && tree.Root != null)
+            if (comboBoxStructure.SelectedItem.ToString() == "Ѕинарное дерево")
             {
-                // ќпредел€ем центральную точку дерева и панели
-                int treeCenterX = pictureBox.Width / 2;
-                int panelCenterX = panel.ClientSize.Width / 2;
-
-                // –ассчитываем сдвиг дл€ центрировани€ дерева
-                int offsetX = treeCenterX - panelCenterX;
-
-                // ”станавливаем позицию прокрутки, центриру€ дерево
-                panel.AutoScrollPosition = new Point(offsetX, 0);  
+                CenterInPanel(tree);
+            }
+            else
+            {
+                CenterInPanel(heap);
             }
         }
 
-        private void checkBoxBalance_CheckedChanged(object sender, EventArgs e)
+        private void CenterInPanel(dynamic structure)
         {
-            bool isBalanced = checkBoxBalance.Checked;
-            tree.SetBalance(isBalanced);
-            ClearTextBoxAndAppendStatus(isBalanced
-                ? "Ѕалансировка включена.\n"
-                : "Ѕалансировка выключена.\n");
+            if (structure != null && (structure is BinaryTree tree && tree.Root != null || structure is BinaryHeap heap && heap.Count > 0))
+            {
+                int centerX = pictureBox.Width / 2;
+                int panelCenterX = panel.ClientSize.Width / 2;
+                panel.AutoScrollPosition = new Point(centerX - panelCenterX, 0);
+            }
+        }
+
+
+        private void CheckBoxBalance_CheckedChanged(object sender, EventArgs e)
+        {
+            if (comboBoxStructure.SelectedItem.ToString() == "Ѕинарное дерево")
+            {
+                bool isBalanced = checkBoxBalance.Checked;
+                tree.SetBalance(isBalanced);
+                ClearTextBoxAndAppendStatus(isBalanced ? "Ѕалансировка включена.\n" : "Ѕалансировка выключена.\n");
+            }
         }
     }
 }
+
+

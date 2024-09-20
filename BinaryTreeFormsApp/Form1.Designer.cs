@@ -38,36 +38,40 @@
             panel = new Panel();
             buttonReset = new Button();
             checkBoxBalance = new CheckBox();
+            comboBoxStructure = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             panel.SuspendLayout();
             SuspendLayout();
             // 
             // buttonAdd
             // 
+            buttonAdd.BackColor = Color.CornflowerBlue;
             buttonAdd.Location = new Point(808, 22);
             buttonAdd.Name = "buttonAdd";
             buttonAdd.Size = new Size(94, 42);
             buttonAdd.TabIndex = 0;
             buttonAdd.Text = "Добавить";
-            buttonAdd.UseVisualStyleBackColor = true;
+            buttonAdd.UseVisualStyleBackColor = false;
             // 
             // buttonSearch
             // 
+            buttonSearch.BackColor = Color.CornflowerBlue;
             buttonSearch.Location = new Point(808, 116);
             buttonSearch.Name = "buttonSearch";
             buttonSearch.Size = new Size(94, 42);
             buttonSearch.TabIndex = 3;
             buttonSearch.Text = "Найти";
-            buttonSearch.UseVisualStyleBackColor = true;
+            buttonSearch.UseVisualStyleBackColor = false;
             // 
             // buttonRemove
             // 
+            buttonRemove.BackColor = Color.CornflowerBlue;
             buttonRemove.Location = new Point(808, 70);
             buttonRemove.Name = "buttonRemove";
             buttonRemove.Size = new Size(94, 40);
             buttonRemove.TabIndex = 4;
             buttonRemove.Text = "Удалить";
-            buttonRemove.UseVisualStyleBackColor = true;
+            buttonRemove.UseVisualStyleBackColor = false;
             // 
             // richTextBoxStatus
             // 
@@ -86,12 +90,13 @@
             // 
             // buttonGenerateRandom
             // 
+            buttonGenerateRandom.BackColor = Color.CornflowerBlue;
             buttonGenerateRandom.Location = new Point(931, 22);
             buttonGenerateRandom.Name = "buttonGenerateRandom";
             buttonGenerateRandom.Size = new Size(155, 60);
             buttonGenerateRandom.TabIndex = 7;
             buttonGenerateRandom.Text = "Сгенерировать";
-            buttonGenerateRandom.UseVisualStyleBackColor = true;
+            buttonGenerateRandom.UseVisualStyleBackColor = false;
             // 
             // pictureBox
             // 
@@ -112,28 +117,40 @@
             // 
             // buttonReset
             // 
+            buttonReset.BackColor = Color.CornflowerBlue;
             buttonReset.Location = new Point(931, 102);
             buttonReset.Name = "buttonReset";
             buttonReset.Size = new Size(155, 56);
             buttonReset.TabIndex = 10;
             buttonReset.Text = "Сброс";
-            buttonReset.UseVisualStyleBackColor = true;
+            buttonReset.UseVisualStyleBackColor = false;
             // 
             // checkBoxBalance
             // 
             checkBoxBalance.AutoSize = true;
-            checkBoxBalance.Location = new Point(808, 181);
+            checkBoxBalance.Location = new Point(808, 176);
             checkBoxBalance.Name = "checkBoxBalance";
             checkBoxBalance.Size = new Size(159, 24);
             checkBoxBalance.TabIndex = 11;
             checkBoxBalance.Text = "AVL Балансировка";
             checkBoxBalance.UseVisualStyleBackColor = true;
             // 
+            // comboBoxStructure
+            // 
+            comboBoxStructure.BackColor = SystemColors.Window;
+            comboBoxStructure.FormattingEnabled = true;
+            comboBoxStructure.Location = new Point(808, 206);
+            comboBoxStructure.Name = "comboBoxStructure";
+            comboBoxStructure.Size = new Size(174, 28);
+            comboBoxStructure.TabIndex = 12;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1107, 573);
+            Controls.Add(comboBoxStructure);
             Controls.Add(checkBoxBalance);
             Controls.Add(buttonReset);
             Controls.Add(panel);
@@ -163,5 +180,6 @@
         private Panel panel;
         private Button buttonReset;
         private CheckBox checkBoxBalance;
+        private ComboBox comboBoxStructure;
     }
 }

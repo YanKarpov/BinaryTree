@@ -9,12 +9,12 @@ public class BinaryTree
         get { return root; }
     }
 
-    private bool _isBalanced; // Новый флаг для включения/выключения балансировки
+    private bool _isBalanced; 
 
     public BinaryTree(bool isBalanced = false)
     {
         root = null;
-        _isBalanced = isBalanced; // Инициализация балансировки
+        _isBalanced = isBalanced; 
     }
 
     // Добавление элемента в дерево
@@ -23,7 +23,7 @@ public class BinaryTree
         root = AddRecursive(root, data);
     }
 
-    // Включение или выключение балансировки
+    
     public void SetBalance(bool isBalanced)
     {
         _isBalanced = isBalanced;
@@ -62,7 +62,7 @@ public class BinaryTree
 
         if (_isBalanced)
         {
-            node = Balance(node); // Выполнение балансировки, если флаг установлен
+            node = Balance(node); 
         }
 
         return node;
@@ -96,7 +96,7 @@ public class BinaryTree
 
         if (_isBalanced)
         {
-            node = Balance(node); // Балансировка после удаления
+            node = Balance(node); 
         }
 
         return node;
