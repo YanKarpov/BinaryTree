@@ -64,13 +64,11 @@ namespace BinaryTreeFormsApp
                     // Проверяем, если значение уже существует в куче
                     if (heap.Contains(inputValue))
                     {
-                        // Если значение уже существует, заменяем его
-                        heap.ChangeKey(inputValue, inputValue + 1); // Например, добавим 1 для изменения
+                        heap.ChangeKey(inputValue, inputValue + 1); 
                         UpdateUI($"Значение {inputValue} обновлено в куче.\n");
                     }
                     else
                     {
-                        // Если значение не существует, добавляем его
                         heap.Insert(inputValue);
                         UpdateUI($"Элемент {inputValue} добавлен в кучу.\n");
                     }
@@ -143,7 +141,7 @@ namespace BinaryTreeFormsApp
         {
             try
             {
-                int removedValue = heap.Remove(); // Удаляем максимальный элемент
+                int removedValue = heap.Remove(); 
                 UpdateUI($"Максимальный элемент {removedValue} удалён из кучи.\n");
             }
             catch (InvalidOperationException ex)
