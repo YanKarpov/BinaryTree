@@ -102,13 +102,30 @@ namespace BinaryTreeFormsApp
                 {
                     RemoveFromTree(removeValue);
                 }
-
+                else
+                {
+                    RemoveFromHeap();
+                }
             }
             else
             {
                 ClearTextBoxAndAppendStatus("Ќекорректное значение.\n");
             }
         }
+
+        private void RemoveFromHeap()
+        {
+            try
+            {
+                int removedValue = heap.Remove(); 
+                UpdateUI($"ћаксимальный элемент {removedValue} удалЄн из кучи.\n");
+            }
+            catch (InvalidOperationException ex)
+            {
+                ClearTextBoxAndAppendStatus(ex.Message + "\n");
+            }
+        }
+
 
         private void RemoveFromTree(int value)
         {
@@ -131,10 +148,6 @@ namespace BinaryTreeFormsApp
                 {
                     SearchInTree(searchValue);
                 }
-                //else
-                //{
-                //    SearchInHeap(searchValue);
-                //}
             }
             else
             {
@@ -147,12 +160,6 @@ namespace BinaryTreeFormsApp
             bool found = tree.Search(value);
             ClearTextBoxAndAppendStatus(found ? $"Ёлемент {value} найден в дереве.\n" : $"Ёлемент {value} не найден в дереве.\n");
         }
-
-        //private void SearchInHeap(int value)
-        //{
-        //    bool found = heap.Search(value);
-        //    ClearTextBoxAndAppendStatus(found ? $"Ёлемент {value} найден в куче.\n" : $"Ёлемент {value} не найден в куче.\n");
-        //}
 
         private void ButtonGenerateRandom_Click(object sender, EventArgs e)
         {
