@@ -31,8 +31,7 @@ namespace BinaryTreeFormsApp
 
         private void InitializeComboBox()
         {
-            comboBoxStructure.Items.Add("Бинарное дерево");
-            comboBoxStructure.Items.Add("Бинарная куча");
+            comboBoxStructure.Items.AddRange(new[] { "Бинарное дерево", "Бинарная куча" });
             comboBoxStructure.SelectedIndex = 0; // По умолчанию бинарное дерево
         }
 
@@ -60,14 +59,7 @@ namespace BinaryTreeFormsApp
         {
             if (TryParseInput(out int addValue))
             {
-                if (comboBoxStructure.SelectedItem.ToString() == "Бинарное дерево")
-                {
-                    AddToTree(addValue);
-                }
-                else
-                {
-                    AddToHeap(addValue);
-                }
+                PerformActionBasedOnStructure(() => AddToTree(addValue), () => AddToHeap(addValue));
             }
             else
             {
@@ -98,14 +90,7 @@ namespace BinaryTreeFormsApp
         {
             if (TryParseInput(out int removeValue))
             {
-                if (comboBoxStructure.SelectedItem.ToString() == "Бинарное дерево")
-                {
-                    RemoveFromTree(removeValue);
-                }
-                else
-                {
-                    RemoveFromHeap();
-                }
+                PerformActionBasedOnStructure(() => RemoveFromTree(removeValue), RemoveFromHeap);
             }
             else
             {
@@ -117,7 +102,7 @@ namespace BinaryTreeFormsApp
         {
             try
             {
-                int removedValue = heap.Remove(); 
+                int removedValue = heap.Remove();
                 UpdateUI($"Максимальный элемент {removedValue} удалён из кучи.\n");
             }
             catch (InvalidOperationException ex)
@@ -125,7 +110,6 @@ namespace BinaryTreeFormsApp
                 ClearTextBoxAndAppendStatus(ex.Message + "\n");
             }
         }
-
 
         private void RemoveFromTree(int value)
         {
@@ -148,6 +132,10 @@ namespace BinaryTreeFormsApp
                 {
                     SearchInTree(searchValue);
                 }
+                else
+                {
+                    ClearTextBoxAndAppendStatus("Поиск поддерживается только в бинарном дереве.\n");
+                }
             }
             else
             {
@@ -165,15 +153,7 @@ namespace BinaryTreeFormsApp
         {
             if (TryParseInput(out int count))
             {
-                if (comboBoxStructure.SelectedItem.ToString() == "Бинарное дерево")
-                {
-                    tree.GenerateRandom(count);
-                }
-                else
-                {
-                    heap.GenerateRandom(count);
-                }
-
+                PerformActionBasedOnStructure(() => tree.GenerateRandom(count), () => heap.GenerateRandom(count));
                 UpdateUI($"Сгенерировано {count} случайных элементов.\n");
             }
             else
@@ -206,20 +186,10 @@ namespace BinaryTreeFormsApp
 
         private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
-            if (comboBoxStructure.SelectedItem.ToString() == "Бинарное дерево")
-            {
-                if (tree?.Root != null)
-                {
-                    treeRenderer.Draw(e.Graphics, pictureBox.Width / 2, 20);
-                }
-            }
-            else
-            {
-                if (heap?.Count != null)
-                {
-                    heapRenderer.Draw(e.Graphics, pictureBox.Width / 2, 20);
-                }
-            }
+            PerformActionBasedOnStructure(
+                () => treeRenderer.Draw(e.Graphics, pictureBox.Width / 2, 20),
+                () => heapRenderer.Draw(e.Graphics, pictureBox.Width / 2, 20)
+            );
         }
 
         private void UpdateUI(string message)
@@ -242,26 +212,10 @@ namespace BinaryTreeFormsApp
 
         private void CenterTreeInPanel()
         {
-            if (comboBoxStructure.SelectedItem.ToString() == "Бинарное дерево")
-            {
-                CenterInPanel(tree);
-            }
-            else
-            {
-                CenterInPanel(heap);
-            }
+            int centerX = pictureBox.Width / 2;
+            int panelCenterX = panel.ClientSize.Width / 2;
+            panel.AutoScrollPosition = new Point(centerX - panelCenterX, 0);
         }
-
-        private void CenterInPanel(dynamic structure)
-        {
-            if (structure != null && (structure is BinaryTree tree && tree.Root != null || structure is BinaryHeap heap && heap.Count > 0))
-            {
-                int centerX = pictureBox.Width / 2;
-                int panelCenterX = panel.ClientSize.Width / 2;
-                panel.AutoScrollPosition = new Point(centerX - panelCenterX, 0);
-            }
-        }
-
 
         private void CheckBoxBalance_CheckedChanged(object sender, EventArgs e)
         {
@@ -272,7 +226,20 @@ namespace BinaryTreeFormsApp
                 ClearTextBoxAndAppendStatus(isBalanced ? "Балансировка включена.\n" : "Балансировка выключена.\n");
             }
         }
+
+        private void PerformActionBasedOnStructure(Action binaryTreeAction, Action binaryHeapAction)
+        {
+            if (comboBoxStructure.SelectedItem.ToString() == "Бинарное дерево")
+            {
+                binaryTreeAction?.Invoke();
+            }
+            else
+            {
+                binaryHeapAction?.Invoke();
+            }
+        }
     }
 }
+
 
 
