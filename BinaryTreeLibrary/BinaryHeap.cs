@@ -133,4 +133,24 @@
         heap[index1] = heap[index2];
         heap[index2] = temp;
     }
+
+
+    public void ChangeKey(int oldValue, int newValue)
+    {
+        int index = heap.IndexOf(oldValue);
+        if (index == -1)
+            throw new InvalidOperationException("Элемент не найден в куче.");
+
+        heap[index] = newValue;
+
+        HeapifyUp(index);
+        HeapifyDown(index);
+    }
+
+    public bool Contains(int value)
+    {
+        return heap.Contains(value);
+    }
+
+
 }

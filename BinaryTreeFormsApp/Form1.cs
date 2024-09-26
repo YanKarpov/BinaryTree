@@ -57,15 +57,35 @@ namespace BinaryTreeFormsApp
 
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            if (TryParseInput(out int addValue))
+            if (TryParseInput(out int inputValue))
             {
-                PerformActionBasedOnStructure(() => AddToTree(addValue), () => AddToHeap(addValue));
+                if (comboBoxStructure.SelectedItem.ToString() == "Бинарная куча")
+                {
+                    // Проверяем, если значение уже существует в куче
+                    if (heap.Contains(inputValue))
+                    {
+                        // Если значение уже существует, заменяем его
+                        heap.ChangeKey(inputValue, inputValue + 1); // Например, добавим 1 для изменения
+                        UpdateUI($"Значение {inputValue} обновлено в куче.\n");
+                    }
+                    else
+                    {
+                        // Если значение не существует, добавляем его
+                        heap.Insert(inputValue);
+                        UpdateUI($"Элемент {inputValue} добавлен в кучу.\n");
+                    }
+                }
+                else
+                {
+                    PerformActionBasedOnStructure(() => AddToTree(inputValue), () => AddToHeap(inputValue));
+                }
             }
             else
             {
                 ClearTextBoxAndAppendStatus("Некорректное значение.\n");
             }
         }
+
 
         private void AddToTree(int value)
         {
