@@ -88,13 +88,34 @@ namespace BinaryTreeFormsApp
 
         private void ButtonRemove_Click(object sender, EventArgs e)
         {
-            if (TryParseInput(out int removeValue))
+            if (string.IsNullOrWhiteSpace(textBoxInput.Text))
             {
-                PerformActionBasedOnStructure(() => RemoveFromTree(removeValue), RemoveFromHeap);
+                if (comboBoxStructure.SelectedItem.ToString() == "Бинарная куча")
+                {
+                    RemoveFromHeap();
+                }
+                else
+                {
+                    ClearTextBoxAndAppendStatus("Удаление с пустой строкой ввода поддерживается только для бинарной кучи.\n");
+                }
             }
             else
             {
-                ClearTextBoxAndAppendStatus("Некорректное значение.\n");
+                if (TryParseInput(out int removeValue))
+                {
+                    if (comboBoxStructure.SelectedItem.ToString() == "Бинарная куча")
+                    {
+                        RemoveFromHeap(removeValue);
+                    }
+                    else
+                    {
+                        PerformActionBasedOnStructure(() => RemoveFromTree(removeValue), RemoveFromHeap);
+                    }
+                }
+                else
+                {
+                    ClearTextBoxAndAppendStatus("Некорректное значение.\n");
+                }
             }
         }
 
@@ -102,7 +123,7 @@ namespace BinaryTreeFormsApp
         {
             try
             {
-                int removedValue = heap.Remove();
+                int removedValue = heap.Remove(); // Удаляем максимальный элемент
                 UpdateUI($"Максимальный элемент {removedValue} удалён из кучи.\n");
             }
             catch (InvalidOperationException ex)
@@ -110,6 +131,19 @@ namespace BinaryTreeFormsApp
                 ClearTextBoxAndAppendStatus(ex.Message + "\n");
             }
         }
+
+        private void RemoveFromHeap(int value)
+        {
+            if (heap.RemoveSpecific(value))
+            {
+                UpdateUI($"Элемент {value} удалён из кучи.\n");
+            }
+            else
+            {
+                ClearTextBoxAndAppendStatus($"Элемент {value} не найден в куче.\n");
+            }
+        }
+
 
         private void RemoveFromTree(int value)
         {
